@@ -105,6 +105,23 @@ app.post('/add', function(req, res, next){
         })
     }
 })
+
+app.post('/lalala', function(req,res,next){
+    req.getConnection(function(error, conn) {
+        let name = req.body.name;
+        let age = req.body.age;
+        let email = req.body.email;
+        let user = {
+            name: name,
+            age: age,
+            email: email
+        }    
+        conn.query("INSERT INTO users SET ? ", user, function (error, results, fields) {
+            if (error) throw error;
+            return res.send({ error: false, data: results, message: 'New user has been created successfully.' });
+        });
+    })
+})
  
 // SHOW EDIT USER FORM
 app.get('/edit/(:id)', function(req, res, next){
